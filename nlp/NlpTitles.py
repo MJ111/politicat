@@ -1,5 +1,7 @@
 # run with 'python3 nlpTitles.py'
 
+from datetime import datetime, timedelta
+
 import pymongo
 from pymongo import MongoClient
 
@@ -12,7 +14,7 @@ db = client.politicat
 def main():
     doc = kolaw.open('constitution.txt').read()
     lines = doc.split('\n')
-    # insertDataToDB(lines)
+    insertDataToDB(lines)
 
 def insertDataToDB(data):
     for l in data:
@@ -48,12 +50,16 @@ def insertDataToDB(data):
                 relation_id = -1
 
                 if relation_obj == None:
-                    relation_id = db.keyword_relations.insert_one({'keyword1_id' : n_id, 'keyword2_id' : related_id, 'total_count' : 1}).inserted_id
+                    relation_id = db.keyword_relations.insert_one({'keyword1_id' : n_id, 'keyword2_id' : related_id, 'total_count' : 1, 'count_in_day' : 1, 'updated_at' : datetime.utcnow()}).inserted_id
                     print('relation inserted: ', relation_id)
                 else:
                     relation_id = relation_obj['_id']
-                    result = db.keyword_relations.update_one({'_id' : relation_id}, {'$inc' : {'total_count' : 1}})
-                    print('relation updated: ', result.modified_count)
+                    if datetime.utcnow() - relation_obj['updated_at'] > timedelta(days=1):
+                        result = db.keyword_relations.update_one({'_id' : relation_id}, {'$set' : {'count_in_day' : 1, 'updated_at' : datetime.utcnow()}, '$inc' : {'total_count' : 1}})
+                        print('relation updated : count_in_day initialized')
+                    else:
+                        result = db.keyword_relations.update_one({'_id' : relation_id}, {'$set' : {'updated_at' : datetime.utcnow()}, '$inc' : {'total_count' : 1, 'count_in_day' : 1}})
+                        print('relation updated : count_in_day incremented')
 
 def findRelatedKeywords(keyword):
     related_keyword = {}
