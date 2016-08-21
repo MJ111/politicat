@@ -1,25 +1,30 @@
+var webpack = require('webpack')
+
 module.exports = {
-  entry: './client/index.js',
+  entry: './client/index2.js',
 
   output: {
-    path: __dirname + '/public',
-    filename: 'bundle.js'
+    path: 'public',
+    filename: 'bundle.js',
+    publicPath: '/'
   },
 
+  plugins: process.env.NODE_ENV === 'production' ? [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  ] : [],
+
   module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel',
-      exclude: /node_modules/,
-      query: {
-      cacheDirectory: true,
-      presets: ['es2015', 'react']
-      }
-    },
-      {
-        test: /\.css$/,
-        loader: 'style!css'
-      }
+    loaders: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react' },
+      { test: /\.css$/, loader: 'style!css' }
     ]
+  },
+
+  devServer: {
+    proxy: {
+      '*' : 'http://localhost:8000',
+    }
   }
 };

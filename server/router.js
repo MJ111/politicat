@@ -3,7 +3,8 @@ import keywordController from './search/keywordController.js';
 
 const router = express.Router();
 
-router.get('/home', keywordController.home);
-router.post('/search', keywordController.search);
+router.get('/today', keywordController.today);
+router.post('/sub', keywordController.sub);
+router.post('/article', keywordController.article);
 
 export default router;

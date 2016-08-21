@@ -1,3 +1,7 @@
+import d3cloud from 'd3.layout.cloud';
+
+d3.layout.cloud = d3cloud;
+
 window.fill = d3.scale.category20b();
 
 var w = window.innerWidth,
@@ -34,7 +38,7 @@ var vis = svg.append("g").attr("transform", "translate(" + [w >> 1, h >> 1] + ")
 function draw(data, bounds) {
     var w = window.innerWidth,
         h = window.innerHeight - 100;
-        console.log("bound is ", bounds);
+
     svg.attr("width", w).attr("height", h);
 
     window.scale = bounds ? Math.min(
@@ -81,7 +85,7 @@ function draw(data, bounds) {
 }
 
 function update(tags) {
-    window.mainlayout.font('impact').spiral('archimedean');
+    //window.mainlayout.font('impact').spiral('archimedean');
     window.fontSize = d3.scale['sqrt']().range([10, 100]);
     if (tags.length){
         window.fontSize.domain([+tags[tags.length - 1].value || 1, +tags[0].value]);
