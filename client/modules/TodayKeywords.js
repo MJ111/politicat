@@ -8,7 +8,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    axios.get('/today')
+    axios.get('/news/api/today')
       .then(function (resp) {
         this.setState({data: resp.data.slice(0,10)})
       }.bind(this));

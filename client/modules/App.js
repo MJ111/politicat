@@ -1,6 +1,5 @@
 import React from 'react'
 import NavLink from './NavLink'
-import axios from 'axios'
 
 export default React.createClass({
   render() {

@@ -15,7 +15,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/../public'));
-app.use('/', router);
+app.use('/news/api', router);
 
 const server = app.listen(port, () => {
   console.log('Express listening on port', port);

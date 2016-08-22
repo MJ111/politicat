@@ -8,7 +8,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    axios.post('/article', {
+    axios.post('/news/api/article', {
       data: this.props.params.subKeyword
     })
     .then(function (resp) {
