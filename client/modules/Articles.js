@@ -7,14 +7,23 @@ export default React.createClass({
     return {data: []}
   },
 
-  componentDidMount() {
+  getData(props) {
     axios.post('/news/api/article', {
-      data: this.props.params.subKeyword
+      main: props.params.todayKeyword,
+      sub: props.params.subKeyword
     })
     .then(function (resp) {
       console.log('resp: ', resp);
       this.setState({data: resp.data.slice(0,10)})
     }.bind(this));
+  },
+
+  componentDidMount() {
+    this.getData(this.props);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.getData(nextProps);
   },
 
   render() {

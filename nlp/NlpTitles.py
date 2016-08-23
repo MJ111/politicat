@@ -24,13 +24,13 @@ def insertArticle(keywords, title, url, date):
     for i in range(len(nouns)):
         keywords.setdefault(nouns[i], [{}, 0])
         keywords[nouns[i]][1] += 1
-        for j in range(i+1, len(nouns)):
+        for j in range(len(nouns)):
+            if nouns[i] == nouns[j]:
+                continue
             subkeywords = keywords[nouns[i]][0]
             subkeywords.setdefault(nouns[j], [[], 0])
             subkeywords[nouns[j]][0].append(inserted_id)
             subkeywords[nouns[j]][1] += 1
-            break
-        break
 
 def getTop(keywords):
     sorted_keywords = sorted(keywords.items(), key=lambda kv: operator.itemgetter(1)(kv[1]), reverse=True)
@@ -46,11 +46,11 @@ def getTop(keywords):
 
 def insertKeywords(keywords, today):
     for k,v in keywords:
-        inserted_id = db.keywords.insert_one({'word':k, 'date': today, 'cnt': v[1]}).inserted_id
+        upserted_id = db.keywords.update_one({'word':k, 'date': today}, {'$set':{'cnt':v[1]}}, True).upserted_id
         for k2,v2 in v[0]:
-            sub_inserted_id = db.subkeywords.insert_one({'word': k2, 'cnt': v2[1], 'keyword_id':inserted_id}).inserted_id
+            sub_upserted_id = db.subkeywords.update_one({'word': k2, 'keyword_id':upserted_id, 'date': today}, {'$set':{'cnt': v2[1]}}, True).upserted_id
             for v3 in v2[0]:
-                db.sub_article.insert_one({'article_id': v3, 'subkeyword_id':sub_inserted_id})
+                db.sub_article.insert_one({'article_id': v3, 'subkeyword_id':sub_upserted_id, 'date': today})
 
 # def main():
     # last_time = getLastTimeInCrawlingToNlp()

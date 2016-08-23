@@ -5,19 +5,27 @@ import SubArticle from './model/subarticle.js';
 import Article from './model/article.js';
 
 // Promisify a few mongoose methods with the `q` promise library
-var findTodayKeyword = Q.nbind(Keyword.find, Keyword);
-var findOneKeyword = Q.nbind(Keyword.findOne, Keyword);
-var findSubKeyword = Q.nbind(SubKeyword.find, SubKeyword);
-var findOneSub = Q.nbind(SubKeyword.findOne, SubKeyword);
-var findSubArticle = Q.nbind(SubArticle.find, SubArticle);
-var findArticle = Q.nbind(Article.find, Article);
+const findOneKeyword = Q.nbind(Keyword.findOne, Keyword);
+const findSubKeyword = Q.nbind(SubKeyword.find, SubKeyword);
+const findOneSub = Q.nbind(SubKeyword.findOne, SubKeyword);
+const findSubArticle = Q.nbind(SubArticle.find, SubArticle);
+const findArticle = Q.nbind(Article.find, Article);
 
-var api = {
+let today = new Date().toLocaleDateString('ko-KR',
+  {year:'numeric', month:'2-digit', day:'2-digit'}).replace(/\//g, '');
+today = today.slice(4)+today.slice(0,2)+today.slice(2,4);
+
+const api = {
   article: function(req, res, next) {
-    const subkeyword = req.body.data;
-    findOneSub({word:subkeyword})
+    const mainKeyword = req.body.main;
+    const subKeyword = req.body.sub;
+    findOneKeyword({word:mainKeyword, date:today})
     .then((result) => {
       console.log('result', result)
+      return findOneSub({word:subKeyword, keyword_id:result._id})
+    })
+    .then((result) => {
+      console.log('sub result', result)
       return findSubArticle({subkeyword_id:result._id})
     })
     .then((results) => {
@@ -33,8 +41,8 @@ var api = {
   },
 
   sub: function(req, res, next) {
-    const today = req.body.data;
-    findOneKeyword({word:today})
+    const mainKeyword = req.body.data;
+    findOneKeyword({word:mainKeyword, date:today})
     .then((result) => {
       console.log('result', result)
       return findSubKeyword({keyword_id:result._id})
@@ -46,14 +54,15 @@ var api = {
   },
 
   today: function(req, res, next) {
-    const today = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-    findTodayKeyword({date: today})
+    console.log(today)
+    Keyword.find({date: today})
+    .sort({cnt:-1})
     .then(function(results) {
+      console.log('results: ', results);
       results = results.map(function(val) {
         return [val.word, val.cnt];
       });
 
-      console.log('results: ', results);
       res.send(results);
     });
   }
