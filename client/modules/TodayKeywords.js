@@ -20,36 +20,37 @@ export default React.createClass({
 
   handleSubmit(event) {
     event.preventDefault()
-    const userName = event.target.elements[0].value
-    const repo = event.target.elements[1].value
-    const path = `/repos/${userName}/${repo}`
-    console.log(path)
+    const keyword = event.target.elements[0].value
+    const path = `/news/${keyword}/ `
     this.context.router.push(path)
   },
 
   render() {
     const todayKeywords = this.state.data.map((val, i) => {
       return (
-        <li key={i}><NavLink to={`/news/${val[0]}`} key={i}>{`${i+1}. ${val[0]}`}</NavLink></li>
+        <li className="today-term-item" key={i}>
+          <NavLink className="today-term" to={`/news/${val[0]}`} key={i}>
+            <span className="today-term-name" key={i}>{val[0]}</span>
+          </NavLink>
+        </li>
       );
     });
     return (
-      <div>
-        <h2>Trending</h2>
+      <section className="today-keywords">
+        <h2 className="today-title">Trending</h2>
         <ul>
-          <div class="today">
+          <div className="today-terms">
             {todayKeywords}
           </div>
           <li>
             <form onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="userName"/> / {' '}
-              <input type="text" placeholder="repo"/>{' '}
+              <input type="text" placeholder="keyword"/>
               <button type="submit">Go</button>
             </form>
           </li>
         </ul>
         {this.props.children}
-      </div>
+      </section>
     )
   }
 })

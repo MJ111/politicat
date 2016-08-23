@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default React.createClass({
   getInitialState() {
-    return {data: []}
+    return {data: [], posts: []}
   },
 
   getData(props) {
@@ -29,17 +29,28 @@ export default React.createClass({
   render() {
     const articles = this.state.data.map((val, i) => {
       return (
-        <li key={i}><a href={val[0].url} key={i}>{`${i+1}. ${val[0].title}`}</a></li>
+        <article className="post-item" key={i}>
+          <header className="post-header" key={i}>
+            <a className="post-link" href={val[0].url} key={i}>
+              {val[0].title}
+            </a>
+          </header>
+          <section className="post-content" key={i}>
+            {this.state.posts[i]}
+          </section>
+        </article>
       );
     });
 
     return (
-      <div>
-        <h2>{this.props.params.subKeyword}</h2>
-        <div class="articles">
+      <section className="articles-section">
+        <h2 className="articles-title">
+          {this.props.params.subKeyword}
+        </h2>
+        <div className="posts">
           {articles}
         </div>
-      </div>
+      </section>
     )
   }
 })

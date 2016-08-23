@@ -28,20 +28,28 @@ export default React.createClass({
   render() {
     const subKeyword = this.state.data.map((val, i) => {
       return (
-        <li key={i}><NavLink to={`/news/${this.props.params.todayKeyword}/${val.word}`} key={i}>{`${i+1}. ${val.word}`}</NavLink></li>
+        <li className="sub-term-item" key={i}>
+          <NavLink className="sub-term" to={`/news/${this.props.params.todayKeyword}/${val.word}`} key={i}>
+            <span className="sub-term-name">
+              {val.word}
+            </span>
+          </NavLink>
+        </li>
       );
     });
 
     return (
-      <div>
-        <h2>{this.props.params.todayKeyword}</h2>
+      <section className="sub-keywords">
+        <h2 className="sub-title">
+          {this.props.params.todayKeyword}
+        </h2>
         <ul>
-          <div class="sub">
+          <div className="sub-terms">
             {subKeyword}
           </div>
         </ul>
         {this.props.children}
-      </div>
+      </section>
     )
   }
 })
