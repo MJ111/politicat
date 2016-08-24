@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+mongoose.Promise = require('q').Promise;
 
 var KeywordSchema = new mongoose.Schema({
   word: String,

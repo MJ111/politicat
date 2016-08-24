@@ -5,6 +5,7 @@ import SubArticle from './model/subarticle.js';
 import Article from './model/article.js';
 
 // Promisify a few mongoose methods with the `q` promise library
+const findKeywords = Q.nbind(Keyword.find, Keyword);
 const findOneKeyword = Q.nbind(Keyword.findOne, Keyword);
 const findSubKeyword = Q.nbind(SubKeyword.find, SubKeyword);
 const findOneSub = Q.nbind(SubKeyword.findOne, SubKeyword);
@@ -17,6 +18,18 @@ const getToday = () => {
   today = today.slice(4)+today.slice(0,2)+today.slice(2,4);
 
   return today;
+}
+
+const findMainKeyword = (range, options) => {
+  if (range) {
+    return Keyword.find(options)
+    .sort({cnt:-1}).exec()
+    .then((results) => {
+      return results[0]
+    })
+  } else {
+    return findOneKeyword(options)
+  }
 }
 
 const api = {
@@ -33,7 +46,7 @@ const api = {
 
     console.log('range', range);
 
-    findOneKeyword(options)
+    findMainKeyword(range, options)
     .then((result) => {
       console.log('result', result)
       return findOneSub({word:subKeyword, keyword_id:result._id})
@@ -49,8 +62,12 @@ const api = {
       }))
     })
     .then((results) => {
-      console.log('results2', results)
-      res.send(results)
+      const results2 = results.sort((a, b) => {
+        return b.date - a.date
+      }).slice(0, 30)
+
+      console.log('results2', results2)
+      res.send(results2)
     })
   },
 
@@ -65,7 +82,7 @@ const api = {
 
     console.log('range', range);
 
-    findOneKeyword(options)
+    findMainKeyword(range, options)
     .then((result) => {
       console.log('result', result)
       return findSubKeyword({keyword_id:result._id})
