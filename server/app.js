@@ -5,7 +5,7 @@ import favicon from 'serve-favicon';
 import router from './router';
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb://localhost/politicat');
+mongoose.connect('mongodb://localhost/politicat2');
 
 const app = express();
 

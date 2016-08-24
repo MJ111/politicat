@@ -5,7 +5,7 @@ import operator
 import re
 
 client = MongoClient('localhost', 27017)
-db = client.politicat
+db = client.politicat2
 
 def clearTodayData(today):
     db.keywords.delete_many({'date': today})
