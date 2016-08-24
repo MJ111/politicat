@@ -7,17 +7,18 @@ import TodayKeywords from './modules/TodayKeywords'
 import SubKeywords from './modules/SubKeywords'
 import Articles from './modules/Articles'
 import Home from './modules/Home'
+import './index.css'
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="/news" component={TodayKeywords}>
-        <Route path="/news/:todayKeyword" component={SubKeywords}>
-          <Route path="/news/:todayKeyword/:subKeyword" component={Articles}></Route>
+      <IndexRoute component={TodayKeywords}/>
+      <Route path="/about" component={About}/>
+      <Route path="/" component={TodayKeywords}>
+        <Route path="/:todayKeyword" component={SubKeywords}>
+          <Route path="/:todayKeyword/:subKeyword" component={Articles}></Route>
         </Route>
       </Route>
-      <Route path="/about" component={About}/>
     </Route>
   </Router>
 ), document.getElementById('app'))

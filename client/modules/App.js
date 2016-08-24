@@ -2,17 +2,41 @@ import React from 'react'
 import NavLink from './NavLink'
 
 export default React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object
+  },
+
+  handleSubmit(event) {
+    event.preventDefault()
+    const keyword = event.target.elements[0].value
+    const path = `/${keyword}/ `
+    this.context.router.push(path)
+  },
+
   render() {
     return (
-      <header className="app-header">
-        <h1 className="app-name">Politicat</h1>
-        <ul className="app-nav" role="nav">
-          <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
-          <li><NavLink to="/about">About</NavLink></li>
-          <li><NavLink to="/news">News</NavLink></li>
-        </ul>
-        {this.props.children}
-      </header>
+      <div className="app">
+        <header className="app-header">
+          <NavLink to="/" onlyActiveOnIndex>
+            <h1 className="app-name">POLITICAT</h1>
+          </NavLink>
+          <div className="search">
+            <form onSubmit={this.handleSubmit}>
+              <input type="text" placeholder="키워드 검색"
+                className="search-query"/>
+              {/*<button type="submit">Go</button>*/}
+            </form>
+          </div>
+          <ul className="app-nav" role="nav">
+            <li><NavLink to="/about">
+                <span className="nav-name">About</span>
+            </NavLink></li>
+          </ul>
+        </header>
+        <div className="content">
+          {this.props.children}
+        </div>
+      </div>
     )
   }
 })

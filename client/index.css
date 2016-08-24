@@ -1,0 +1,183 @@
+body {
+  font-family: Helvetica Neue,HelveticaNeue,Helvetica,Arial,sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 14px;
+  font-style: normal;
+  background-color: #36465d;
+}
+
+a {
+  text-decoration: none;
+}
+
+a, body {
+  color: #444;
+}
+
+a, abbr, acronym, address, applet, article, aside, audio, b, big,
+blockquote, body, canvas, caption, center, cite, code, dd, del,
+details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure,
+footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i,
+iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object,
+ol, output, p, pre, q, ruby, s, samp, section, small, span, strike,
+strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time,
+tr, tt, u, ul, var, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+input, textarea {
+    font-family: Helvetica Neue,HelveticaNeue,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    line-height: 1.4;
+    font-size: 13px;
+    font-style: normal;
+    margin: 0;
+    background-color: #fff;
+    color: #222;
+    border: 1px solid #d5d9dd;
+    border-radius: 2px;
+    box-sizing: border-box;
+    outline: 0; 
+}
+
+.app-header {
+  height: 60px;
+  box-shadow: 0 0 0 1px hsla(0,0%,100%,.13);
+  /* -webkit-transform: translateZ(0) translateY(0); */
+  /* transform: translateZ(0) translateY(0); */
+  /* z-index: 90; */
+  background-color: #36465d;
+  position: fixed;
+  width: 100%;
+}
+
+.nav-name {
+  color: hsla(0,0%,100%,.25);
+}
+
+.app-nav li {
+  display: inline-block;
+  height: 54px;
+  margin: 10px;
+  margin-right: 20px;
+}
+
+.app-nav .nav-name {
+  font-size: 30px;
+}
+
+.app-nav {
+  float: right;
+}
+
+.active > * {
+  color: hsla(0,0%,100%,.95);
+}
+
+.app-name {
+  float: left;
+  font-size: 30px;
+  height: 54px;
+  margin: 10px;
+  margin-left: 20px;
+  color: hsla(0,0%,100%,.25);
+}
+
+.search {
+  display: inline-block;
+}
+
+.search-query {
+  transition: background .15s,color .15s;
+  color: hsla(0,0%,100%,.5);
+  padding-right: 10px;
+  padding-bottom: 2px;
+  padding-left: 30px;
+  background: rgba(0,0,0,.13);
+  font-weight: 400;
+  line-height: inherit;
+  font-size: 15px;
+  height: 34px;
+  border: 0;
+  border-radius: 3px;
+  margin-top: 10px;
+  width: 500px;
+}
+
+.content {
+  padding-top: 90px;
+}
+
+.today-keywords .today-title, .sub-keywords .sub-title, .articles-title {
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: hsla(0,0%,100%,.25);
+  padding: 0 10px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid hsla(0,0%,100%,.13);
+  width: 95%;
+  margin: 0 10px;
+}
+
+.today-keywords .today-terms, .sub-keywords .sub-terms {
+  min-height: 100px; 
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+
+.today-terms .today-term-item, .sub-terms .sub-term-item {
+  display: inline;
+  margin: 10px;
+}
+
+.today-terms .today-term, .sub-terms .sub-term {
+  font-size: 18px;
+  width: 100%;
+  float: left;
+  border-radius: 3px;
+  padding: 5px;
+  color: hsla(0,0%,100%,.95);
+  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.today-terms .today-term {
+  background-color: #56bc8a;
+}
+
+.sub-terms .sub-term {
+  background-color: #529ecc;
+}
+
+.posts .post-item {
+  width: 300px;
+  border-radius: 3px;
+  background: #fff;
+  margin-bottom: 20px;
+  font-size: 20px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.post-item .post-header {
+  height: 100%;
+  padding: 15px;
+  line-height: 28px;
+}
+
+.about {
+  color: hsla(0,0%,100%,.95);
+  padding: 0 20px;
+}

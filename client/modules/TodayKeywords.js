@@ -14,22 +14,11 @@ export default React.createClass({
       }.bind(this));
   },
 
-  contextTypes: {
-    router: React.PropTypes.object
-  },
-
-  handleSubmit(event) {
-    event.preventDefault()
-    const keyword = event.target.elements[0].value
-    const path = `/news/${keyword}/ `
-    this.context.router.push(path)
-  },
-
   render() {
     const todayKeywords = this.state.data.map((val, i) => {
       return (
         <li className="today-term-item" key={i}>
-          <NavLink className="today-term" to={`/news/${val[0]}`} key={i}>
+          <NavLink className="today-term" to={`/${val[0]}`} key={i}>
             <span className="today-term-name" key={i}>{val[0]}</span>
           </NavLink>
         </li>
@@ -42,12 +31,6 @@ export default React.createClass({
           <div className="today-terms">
             {todayKeywords}
           </div>
-          <li>
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="keyword"/>
-              <button type="submit">Go</button>
-            </form>
-          </li>
         </ul>
         {this.props.children}
       </section>

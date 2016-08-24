@@ -29,7 +29,7 @@ export default React.createClass({
     const subKeyword = this.state.data.map((val, i) => {
       return (
         <li className="sub-term-item" key={i}>
-          <NavLink className="sub-term" to={`/news/${this.props.params.todayKeyword}/${val.word}`} key={i}>
+          <NavLink className="sub-term" to={`/${this.props.params.todayKeyword}/${val.word}`} key={i}>
             <span className="sub-term-name">
               {val.word}
             </span>
