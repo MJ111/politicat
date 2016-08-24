@@ -1,16 +1,28 @@
 import React from 'react'
 import NavLink from './NavLink'
 import axios from 'axios'
+import { createHistory, useQueries } from 'history'
+
+const history = useQueries(createHistory)()
 
 export default React.createClass({
   getInitialState() {
-    return {data: []}
+    return {data: [], searchPath: ''}
   },
 
   getData(props) {
-    axios.post('/news/api/sub', {
-      data: props.params.todayKeyword
-    })
+    const options = {
+      data: props.params.query
+    };
+
+    if (document.location.pathname.includes('search')) {
+      options.range = 'all'
+      this.setState({searchPath:'/search'})
+    } else {
+      this.setState({searchPath:''})
+    }
+
+    axios.post('/news/api/sub', options)
     .then(function (resp) {
       console.log('resp: ', resp);
       this.setState({data: resp.data.slice(0,10)})
@@ -29,7 +41,7 @@ export default React.createClass({
     const subKeyword = this.state.data.map((val, i) => {
       return (
         <li className="sub-term-item" key={i}>
-          <NavLink className="sub-term" to={`/${this.props.params.todayKeyword}/${val.word}`} key={i}>
+          <NavLink className="sub-term" to={`${this.state.searchPath}/${this.props.params.query}/${val.word}`} key={i}>
             <span className="sub-term-name">
               {val.word}
             </span>
@@ -41,7 +53,7 @@ export default React.createClass({
     return (
       <section className="sub-keywords">
         <h2 className="sub-title">
-          {this.props.params.todayKeyword}
+          {this.props.params.query}
         </h2>
         <ul>
           <div className="sub-terms">

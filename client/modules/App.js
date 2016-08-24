@@ -9,8 +9,8 @@ export default React.createClass({
   handleSubmit(event) {
     event.preventDefault()
     const keyword = event.target.elements[0].value
-    const path = `/${keyword}/ `
-    this.context.router.push(path)
+    const path = `/search/${keyword}`
+    this.context.router.push({ pathname: path })
   },
 
   render() {
@@ -24,7 +24,6 @@ export default React.createClass({
             <form onSubmit={this.handleSubmit}>
               <input type="text" placeholder="키워드 검색"
                 className="search-query"/>
-              {/*<button type="submit">Go</button>*/}
             </form>
           </div>
           <ul className="app-nav" role="nav">

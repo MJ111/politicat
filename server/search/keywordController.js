@@ -11,15 +11,29 @@ const findOneSub = Q.nbind(SubKeyword.findOne, SubKeyword);
 const findSubArticle = Q.nbind(SubArticle.find, SubArticle);
 const findArticle = Q.nbind(Article.find, Article);
 
-let today = new Date().toLocaleDateString('ko-KR',
-  {year:'numeric', month:'2-digit', day:'2-digit'}).replace(/\//g, '');
-today = today.slice(4)+today.slice(0,2)+today.slice(2,4);
+const getToday = () => {
+  let today = new Date().toLocaleDateString('ko-KR',
+    {year:'numeric', month:'2-digit', day:'2-digit'}).replace(/\//g, '');
+  today = today.slice(4)+today.slice(0,2)+today.slice(2,4);
+
+  return today;
+}
 
 const api = {
   article: function(req, res, next) {
     const mainKeyword = req.body.main;
     const subKeyword = req.body.sub;
-    findOneKeyword({word:mainKeyword, date:today})
+
+    const range = req.body.range;
+
+    const options = {word:mainKeyword}
+    if (!range) {
+      options.date = getToday()
+    }
+
+    console.log('range', range);
+
+    findOneKeyword(options)
     .then((result) => {
       console.log('result', result)
       return findOneSub({word:subKeyword, keyword_id:result._id})
@@ -42,7 +56,16 @@ const api = {
 
   sub: function(req, res, next) {
     const mainKeyword = req.body.data;
-    findOneKeyword({word:mainKeyword, date:today})
+    const range = req.body.range;
+
+    const options = {word:mainKeyword}
+    if (!range) {
+      options.date = getToday()
+    }
+
+    console.log('range', range);
+
+    findOneKeyword(options)
     .then((result) => {
       console.log('result', result)
       return findSubKeyword({keyword_id:result._id})
@@ -54,8 +77,8 @@ const api = {
   },
 
   today: function(req, res, next) {
-    console.log(today)
-    Keyword.find({date: today})
+    console.log('today', getToday())
+    Keyword.find({date: getToday()})
     .sort({cnt:-1})
     .then(function(results) {
       console.log('results: ', results);

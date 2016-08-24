@@ -178,6 +178,9 @@ input, textarea {
 }
 
 .about {
-  color: hsla(0,0%,100%,.95);
   padding: 0 20px;
+}
+
+.about .twitter {
+  color: hsla(0,0%,100%,.95);
 }

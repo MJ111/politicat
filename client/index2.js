@@ -14,9 +14,12 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={TodayKeywords}/>
       <Route path="/about" component={About}/>
+      <Route path="/search/:query" component={SubKeywords}>
+        <Route path="/search/:query/:subKeyword" component={Articles}></Route>
+      </Route>
       <Route path="/" component={TodayKeywords}>
-        <Route path="/:todayKeyword" component={SubKeywords}>
-          <Route path="/:todayKeyword/:subKeyword" component={Articles}></Route>
+        <Route path="/:query" component={SubKeywords}>
+          <Route path="/:query/:subKeyword" component={Articles}></Route>
         </Route>
       </Route>
     </Route>

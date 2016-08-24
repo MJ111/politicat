@@ -6,10 +6,14 @@ import NlpTitles as nlp
 
 def scrapFrom():
     today = time.strftime("%Y%m%d")
-    spider(today)
 
-def spider(today):
-    url = 'http://news.naver.com/main/list.nhn?sid1=100&listType=title&mid=sec&mode=LSD&date=' + today + '&page='
+    nlp.clearTodayData(today)
+
+    spider(today, 100)
+    spider(today, 102)
+
+def spider(today, section):
+    url = 'http://news.naver.com/main/list.nhn?sid1=' + str(section) + '&listType=title&mid=sec&mode=LSD&date=' + today + '&page='
     keywords = {}
 
     page = 1

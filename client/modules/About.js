@@ -4,7 +4,9 @@ export default React.createClass({
   render() {
     return (
       <div className="about">
-        <span>twitter/@mjane111</span>
+        <a href="https://twitter.com/mjane0111" className="twitter">
+          <span>twitter/@mjane0111</span>
+        </a>
       </div>
     )
   }

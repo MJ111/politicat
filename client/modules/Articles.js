@@ -8,10 +8,16 @@ export default React.createClass({
   },
 
   getData(props) {
-    axios.post('/news/api/article', {
-      main: props.params.todayKeyword,
+    const options = {
+      main: props.params.query,
       sub: props.params.subKeyword
-    })
+    };
+
+    if (document.location.pathname.includes('search')) {
+      options.range = 'all'
+    }
+
+    axios.post('/news/api/article', options)
     .then(function (resp) {
       console.log('resp: ', resp);
       this.setState({data: resp.data.slice(0,10)})
@@ -35,7 +41,7 @@ export default React.createClass({
               {val[0].title}
             </a>
           </header>
-          <section className="post-content" key={i}>
+          <section className="post-content" key={i+1}>
             {this.state.posts[i]}
           </section>
         </article>
