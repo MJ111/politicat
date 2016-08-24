@@ -4,13 +4,18 @@ import time
 
 import NlpTitles as nlp
 
+from datetime import datetime, timedelta
+
 def scrapFrom():
-    today = time.strftime("%Y%m%d")
+    monthago = datetime.strptime('20160825', '%Y%m%d') - timedelta(days=150)
 
-    nlp.clearTodayData(today)
+    for i in range(240):
+        today = monthago.strftime("%Y%m%d")
+        nlp.clearTodayData(today)
 
-    spider(today, 100)
-    spider(today, 102)
+        spider(today, 100)
+        spider(today, 102)
+        monthago += timedelta(days=1)
 
 def spider(today, section):
     url = 'http://news.naver.com/main/list.nhn?sid1=' + str(section) + '&listType=title&mid=sec&mode=LSD&date=' + today + '&page='

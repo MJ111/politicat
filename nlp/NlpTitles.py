@@ -44,11 +44,11 @@ def insertKeywords(keywords, today):
     for k,v in keywords:
         upserted_id = db.keywords.update_one({'word':k, 'date': today}, {'$set':{'cnt':v[1]}}, True).upserted_id
         if upserted_id == None:
-            upserted_id = db.keywords.find_one({'word':k, 'date': today})._id
+            upserted_id = db.keywords.find_one({'word':k, 'date': today}).get('_id')
         for k2,v2 in v[0]:
             sub_upserted_id = db.subkeywords.update_one({'word': k2, 'keyword_id':upserted_id, 'date': today}, {'$set':{'cnt': v2[1]}}, True).upserted_id
             if sub_upserted_id == None:
-                sub_upserted_id = db.subkeywords.find_one({'word':k2, 'keyword_id':upserted_id, 'date': today})._id
+                sub_upserted_id = db.subkeywords.find_one({'word':k2, 'keyword_id':upserted_id, 'date': today}).get('_id')
             for v3 in v2[0]:
                 db.sub_article.insert_one({'article_id': v3, 'subkeyword_id':sub_upserted_id, 'date': today})
 
